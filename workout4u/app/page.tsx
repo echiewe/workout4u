@@ -7,7 +7,7 @@ export default function Home() {
                     <h1 className="text-shadow-lg">WORKOUT4U</h1>
                     <section className="w-3/4 h-3/4 bg-perfume pixel-border">
                         form goes here
-                        {promptResponse}
+                        {/* {promptResponse} */}
                     </section>
                 </div>
             </div>
