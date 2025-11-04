@@ -56,5 +56,5 @@ body {
 
 .pixel-border {
     border: 10px solid transparent;
-    border-image: url('/svgs/background.svg') 10 repeat;
+    border-image: url('/workout4u/svgs/background.svg') 10 repeat;
 }
