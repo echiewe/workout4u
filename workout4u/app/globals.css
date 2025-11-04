@@ -1,26 +1,60 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --background: #171717;
+    --foreground: #ffffff;
+    --indigo: #5143ca;
+    --ultramarine: #0e0789;
+    --lightpurple: #e5d2fb;
+    --orchid: #de565d;
+    --magenta: #8b09a0;
+    --blurple: #b1abf3;
+    --lightpink: #ef9de9;
+    --perfume: #dbd0fb;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-indigo: var(--indigo);
+    --color-ultramarine: var(--ultramarine);
+    --color-lightpurple: var(--lightpurple);
+    --color-orchid: var(--orchid);
+    --color-magenta: var(--magenta);
+    --color-blurple: var(--blurple);
+    --color-lightpink: var(--lightpink);
+    --color-perfume: var(--perfume);
+
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
+    }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+    }
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+h3 {
+    font-size: 1rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: "Pixelify Sans", sans-serif;;
+}
+
+.pixel-border {
+    border: 10px solid transparent;
+    border-image: url('/svgs/background.svg') 10 repeat;
 }
