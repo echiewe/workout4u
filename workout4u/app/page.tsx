@@ -10,7 +10,8 @@ export default function Home() {
     //const projectDesc = "Put together a {x} minute workout with 2-5 exercises per muscle group. Include a quick snack suggestion based on the provided ingredient if an ingredient is provided."
 
     const getAgentReponse = async () => {
-        const genAI = new GoogleGenerativeAI('AIzaSyBfdwSpeB7hMaLXgyKVW_RghvR6ZJVQTpw');
+        console.log(process.env.GEMINI_API_KEY);
+        const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY as string);
     
         const agent1 = createNode(async (store) => {
             const prompt = "Write a concise haiku to how tasty and great pho is."
