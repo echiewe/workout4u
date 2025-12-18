@@ -44,7 +44,39 @@ export default function Home() {
         } else if (step === "form") {
             return (
                 <div className="flex flex-col h-full justify-around items-center">
-                    form goes here
+                    <form action="">
+                        <div className="text-center">
+                            <label htmlFor="muscle1">Choose a muscle group:</label>
+                            <select name="muscle1" id="muscle1">
+                                <option value=""></option>
+                                <option value="back">Back</option>
+                                <option value="biceps">Biceps</option>
+                                <option value="triceps">Triceps</option>
+                                <option value="shoulders">Shoulders</option>
+                                <option value="quads">Quads</option>
+                                <option value="glutes">Glutes</option>
+                                <option value="hamstrings">Hamstrings</option>
+                                <option value="abs">Abs</option>
+                            </select>
+                        </div>
+                        <br/><br/>
+                        <div className="text-center">
+                            <label htmlFor="muscle1">Choose a second muscle group:</label>
+                            <select name="muscle2" id="muscle2">
+                                <option value=""></option>
+                                <option value="back">Back</option>
+                                <option value="biceps">Biceps</option>
+                                <option value="triceps">Triceps</option>
+                                <option value="shoulders">Shoulders</option>
+                                <option value="quads">Quads</option>
+                                <option value="glutes">Glutes</option>
+                                <option value="hamstrings">Hamstrings</option>
+                                <option value="abs">Abs</option>
+                            </select>
+                        </div>
+                        <br/><br/>
+                    </form> 
+                    
                     <button className="hover:opacity-55" onClick={() => handleSubmit()}><img src='/workout4u/images/button.png' alt='border' width={100}/></button>
                 </div>
             );
@@ -66,7 +98,7 @@ export default function Home() {
                         {renderStep()}
                     </section>
                 </div>
-            </div>
+            </div>                
         </div>
     );
 }
