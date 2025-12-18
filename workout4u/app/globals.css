@@ -54,6 +54,25 @@ body {
     font-family: "Pixelify Sans", sans-serif;;
 }
 
+select {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    padding: 2px;
+    width: 150px;
+    color: var(--indigo);
+    border: 2px solid var(--foreground);
+    transform: translateY(25px); 
+}
+
+input {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+label {
+    color: var(--indigo);
+    font-family: "Pixelify Sans", sans-serif;;
+    transform: translateY(30px);
+}
+
 .pixel-border1 {
     border: 15px solid transparent;
     border-image: url('/workout4u/images/border.png') 20;
