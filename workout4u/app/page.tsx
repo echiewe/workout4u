@@ -9,11 +9,12 @@ export default function Home() {
     const [step, setStep] = useState<'form' | 'loading' | 'output'>('form');
     //const projectDesc = "Put together a {x} minute workout with 2-5 exercises per muscle group. Include a quick snack suggestion based on the provided ingredient if an ingredient is provided."
 
-    const getAgentReponse = async () => {
+    const getAgentReponse = async (muscle1: string, muscle2: string, time: string) => {
         const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY as string);
     
         const agent1 = createNode(async (store) => {
-            const prompt = "Write a concise haiku to how great and beneficial strength training is."
+            // const prompt = "Write a concise haiku to how great and beneficial strength training is."
+            const prompt = `Generate a bullet point list of a ${time} minute workout with 2-5 exercises per muscle group: ${muscle1} and ${muscle2}.`
             //const prompt = `${projectDesc}\n\nYour task: `;
             const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
             const result = await model.generateContent(prompt);
@@ -32,8 +33,12 @@ export default function Home() {
 
     const handleSubmit = () => {
         // start and get Multiagent response with getAgentResponse();
+        const muscle1 = document.getElementById('muscle1') as HTMLSelectElement;
+        const muscle2 = document.getElementById('muscle2') as HTMLSelectElement;
+        const time = document.getElementById('time') as HTMLInputElement;
+        console.log(muscle1?.value);
         setStep("loading");
-        getAgentReponse();
+        getAgentReponse(muscle1?.value, muscle2?.value, time?.value);
     };
 
     const renderStep = () => {
@@ -46,7 +51,7 @@ export default function Home() {
         } else if (step === "form") {
             return (
                 <div className="flex flex-col h-full justify-around items-center">
-                    <form action="">
+                    <form id="myForm">
                         <div className="text-center">
                             <label htmlFor="muscle1">Choose a muscle group:</label>
                             <select name="muscle1" id="muscle1">
@@ -61,7 +66,7 @@ export default function Home() {
                                 <option value="abs">Abs</option>
                             </select>
                         </div>
-                        <br/><br/>
+                        <br/>
                         <div className="text-center">
                             <label htmlFor="muscle1">Choose a second muscle group:</label>
                             <select name="muscle2" id="muscle2">
@@ -76,16 +81,22 @@ export default function Home() {
                                 <option value="abs">Abs</option>
                             </select>
                         </div>
-                        <br/><br/>
+                        <br/>
+                        <div className="text-center">
+                        <label htmlFor="time">How long do you want to workout for?</label>
+                        <input type="text" id="time" name="time"></input>
+                        </div>
+                        
                     </form> 
                     
-                    <button className="hover:opacity-55" onClick={() => handleSubmit()}><img src='/workout4u/images/button.png' alt='border' width={100}/></button>
+                    <button type="submit" className="hover:opacity-55" onClick={() => handleSubmit()}><img src='/workout4u/images/button.png' alt='border' width={100}/></button>
                 </div>
             );
         } else {
             return (
-                <div>
-                    <p className="text-ultramarine p-8 text-center">{promptResponse}</p>
+                <div> 
+                    {/* <p className="text-ultramarine p-8 text-center overflow-auto h-[310px] no-scrollbar">{promptResponse}</p> */}
+                    <p className="text-ultramarine p-8 text-center h-[310px] overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">{promptResponse}</p>
                 </div>
             );
         }
