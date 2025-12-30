@@ -1,6 +1,6 @@
 'use client';
 
-import { MultiAgent, Agent, createNode } from "../../src";
+import { MultiAgent, Agent, createNode } from "../src";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useState } from "react";
 
@@ -9,26 +9,23 @@ export default function Home() {
     const [step, setStep] = useState<'form' | 'loading' | 'output'>('form');
     //const projectDesc = "Put together a {x} minute workout with 2-5 exercises per muscle group. Include a quick snack suggestion based on the provided ingredient if an ingredient is provided."
 
-    const getAgentReponse = async (muscle1: string, muscle2: string, time: string) => {
-        const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY as string);
-    
-        const agent1 = createNode(async (store) => {
-            // const prompt = "Write a concise haiku to how great and beneficial strength training is."
-            const prompt = `Generate a bullet point list of a ${time} minute workout with 2-5 exercises per muscle group: ${muscle1} and ${muscle2}.`
-            //const prompt = `${projectDesc}\n\nYour task: `;
-            const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
-            const result = await model.generateContent(prompt);
-            store.response = result.response.text();
-            return store;
-        });
+    const getAgentReponse = async (muscleInput1: string, muscleInput2: string) => {
+        //const prompt = `${projectDesc}\n\nYour task: `;
+        const payload = { 
+            prompt: "Write a concise haiku to how great and beneficial strength training is.",
+            muscle1: muscleInput1,
+            muscle2: muscleInput2,
+        }
 
-        const agent = new Agent(agent1);
+        const res = await fetch('/workout4u/api/agent', {
+            method: "POST",
+            body: JSON.stringify(payload),
+        })
 
-        agent.decide({}).then(result => {
-            console.log(result.response);
-            setPromptResponse(result.response);
-            setStep("output");
-        });
+        const data = await res.json();
+        console.log(data.response);
+        setPromptResponse(data.response);
+        setStep("output");
     };
 
     const handleSubmit = () => {
@@ -38,7 +35,7 @@ export default function Home() {
         const time = document.getElementById('time') as HTMLInputElement;
         console.log(muscle1?.value);
         setStep("loading");
-        getAgentReponse(muscle1?.value, muscle2?.value, time?.value);
+        getAgentReponse("1","2");
     };
 
     const renderStep = () => {
@@ -101,11 +98,11 @@ export default function Home() {
             );
         }
     };
-    
+
     return (
         <div className="bg-[url(/workout4u/svgs/background.svg)] w-full h-screen bg-cover bg-top">
             <div className="w-full h-full flex justify-center items-center">
-                <div className="w-[400px] h-[500px] bg-perfume/70 pixel-border1 flex flex-col items-center justify-around pb-5">
+                <div className="w-1/2 h-[80vh] min-w-[400px] min-h-[500px] bg-perfume/70 pixel-border1 flex flex-col items-center justify-around pb-5">
                     <h1 className="text-shadow-lg">WORKOUT4U</h1>
                     <section className="w-3/4 h-3/4 bg-perfume pixel-border2">
                         {renderStep()}
