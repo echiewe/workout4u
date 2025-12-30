@@ -3,16 +3,17 @@
 import { MultiAgent, Agent, createNode } from "../src";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useState } from "react";
+import ReactMarkdown from 'react-markdown';
 
 export default function Home() {
     const [promptResponse, setPromptResponse] = useState('');
     const [step, setStep] = useState<'form' | 'loading' | 'output'>('form');
     //const projectDesc = "Put together a {x} minute workout with 2-5 exercises per muscle group. Include a quick snack suggestion based on the provided ingredient if an ingredient is provided."
 
-    const getAgentReponse = async (muscleInput1: string, muscleInput2: string) => {
+    const getAgentReponse = async (muscleInput1: string, muscleInput2: string, time: string) => {
         //const prompt = `${projectDesc}\n\nYour task: `;
         const payload = { 
-            prompt: "Write a concise haiku to how great and beneficial strength training is.",
+            prompt: `Generate a bullet point list of a ${time} minute workout with 2-5 exercises per muscle group: ${muscleInput1} and ${muscleInput2}. Provide only a bullet point list with a brief decsription of each exercise.`,
             muscle1: muscleInput1,
             muscle2: muscleInput2,
         }
@@ -35,7 +36,7 @@ export default function Home() {
         const time = document.getElementById('time') as HTMLInputElement;
         console.log(muscle1?.value);
         setStep("loading");
-        getAgentReponse("1","2");
+        getAgentReponse(muscle1?.value, muscle2?.value, time?.value);
     };
 
     const renderStep = () => {
@@ -93,7 +94,7 @@ export default function Home() {
             return (
                 <div> 
                     {/* <p className="text-ultramarine p-8 text-center overflow-auto h-[310px] no-scrollbar">{promptResponse}</p> */}
-                    <p className="text-ultramarine p-8 text-center h-[310px] overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">{promptResponse}</p>
+                    <div className="text-ultramarine p-8 text-center h-[310px] overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] "><ReactMarkdown>{promptResponse}</ReactMarkdown></div>
                 </div>
             );
         }
