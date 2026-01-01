@@ -60,17 +60,20 @@ select {
     width: 150px;
     color: var(--indigo);
     border: 2px solid var(--foreground);
-    transform: translateY(25px); 
+    transform: translateX(5px);
 }
 
 input {
     font-family: "Comic Sans MS", "Comic Sans", cursive;
+    border: 2px solid var(--foreground);
+    color: var(--indigo);
+    transform: translateY(3px);
 }
 
 label {
     color: var(--indigo);
     font-family: "Pixelify Sans", sans-serif;;
-    transform: translateY(30px);
+    transform: translateY(-10px);
 }
 
 .pixel-border1 {
