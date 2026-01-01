@@ -13,7 +13,7 @@ export default function Home() {
     const getAgentReponse = async (muscleInput1: string, muscleInput2: string, time: string) => {
         //const prompt = `${projectDesc}\n\nYour task: `;
         const payload = { 
-            prompt: `Generate a bullet point list of a ${time} minute workout with 2-5 exercises per muscle group: ${muscleInput1} and ${muscleInput2}. Provide only a bullet point list with a brief decsription of each exercise.`,
+            prompt: `Generate a bullet point list of a ${time} minute workout with 2-5 exercises per muscle group: ${muscleInput1} and ${muscleInput2}. Provide only a bullet point list with a brief decsription of each exercise as well as the time recommended for each exercise.`,
             muscle1: muscleInput1,
             muscle2: muscleInput2,
         }
@@ -87,7 +87,12 @@ export default function Home() {
                         
                     </form> 
                     
-                    <button type="submit" className="hover:opacity-55" onClick={() => handleSubmit()}><img src='/workout4u/images/button.png' alt='border' width={100}/></button>
+                    <button 
+                    type="submit" 
+                    className="hover:opacity-55" 
+                    onClick={() => handleSubmit()}>
+                        <img src='/workout4u/images/button.png' alt='border' width={100}/>
+                    </button>
                 </div>
             );
         } else {
