@@ -63,7 +63,7 @@ export default function Home() {
         if (step === "loading") {
             return (
                 <div className="h-full flex items-center justify-center">
-                    <h1>Loading...</h1>
+                    <h1 className="text-indigo">Loading...</h1>
                 </div>
             );
         } else if (step === "form") {
@@ -71,8 +71,8 @@ export default function Home() {
                 <div className="flex flex-col h-full justify-around items-center">
                     <form className="flex flex-col items-center" id="myForm">
                         <div className="text-center mx-5">
-                            <label className="mr-2 text-[1.9vh] md:text-[2.5vh]" htmlFor="muscle1">Choose a muscle group:</label>
-                            <select className="text-[1.9vh] md:text-[2.5vh]" name="muscle1" id="muscle1">
+                            <label className="mr-2 input-sizing" htmlFor="muscle1">Choose a muscle group:</label>
+                            <select className="input-sizing" name="muscle1" id="muscle1">
                                 <option value=""></option>
                                 <option value="back">Back</option>
                                 <option value="biceps">Biceps</option>
@@ -86,8 +86,8 @@ export default function Home() {
                         </div>
                         <br/>
                         <div className="text-center mx-5">
-                            <label className="mr-2 text-[1.9vh] md:text-[2.5vh]" htmlFor="muscle1">Choose a second muscle group:</label>
-                            <select className="text-[1.9vh] md:text-[2.5vh]" name="muscle2" id="muscle2">
+                            <label className="mr-2 input-sizing" htmlFor="muscle1">Choose a second muscle group:</label>
+                            <select className="input-sizing" name="muscle2" id="muscle2">
                                 <option value=""></option>
                                 <option value="back">Back</option>
                                 <option value="biceps">Biceps</option>
@@ -101,15 +101,16 @@ export default function Home() {
                         </div>
                         <br/>
                         <div className="text-center mx-5">
-                            <label className="mr-2 text-[1.9vh] md:text-[2.5vh]" htmlFor="time">How long do you want to workout for?</label>
-                            <input type="text" id="time" name="time"></input>
+                            <label className="mr-2 input-sizing" htmlFor="time">How long do you want to workout for? (Minutes)</label>
+                            <input className="input-sizing px-2 py-1" autoComplete="off" type="text" id="time" name="time"></input>
                         </div>
 
                         <button 
                         type="submit" 
-                        className="hover:opacity-55 mt-[5vh]" 
+                        className="hover:opacity-55 mt-[5vh] w-full" 
                         onClick={() => handleSubmit()}>
-                            <img src='/workout4u/images/button.png' alt='border' width={100}/>
+                            {/* <img src='/workout4u/images/button.png' alt='border' width={100}/> */}
+                            <p className="input-sizing p-1.5 rounded-md bg-lightpink hover:bg-lightpink/60 text-indigo mx-8">Submit</p>
                         </button>
                         
                     </form> 
@@ -120,7 +121,10 @@ export default function Home() {
         } else {
             return (
                 <div className="h-full p-8"> 
-                    <div className="text-ultramarine text-center h-full overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] "><ReactMarkdown>{promptResponse}</ReactMarkdown></div>
+                    <div className="text-ultramarine text-center h-full overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex flex-col gap-3">
+                        <ReactMarkdown>{promptResponse}</ReactMarkdown>
+                        <a className="p-1.5 rounded-md bg-lightpink hover:bg-lightpink/60" href="/workout4u"><p className="text-xl">New Workout</p></a>
+                    </div>
                 </div>
             );
         }
