@@ -8,25 +8,45 @@ import ReactMarkdown from 'react-markdown';
 export default function Home() {
     const [promptResponse, setPromptResponse] = useState('');
     const [step, setStep] = useState<'form' | 'loading' | 'output'>('form');
-    //const projectDesc = "Put together a {x} minute workout with 2-5 exercises per muscle group. Include a quick snack suggestion based on the provided ingredient if an ingredient is provided."
 
     const getAgentReponse = async (muscleInput1: string, muscleInput2: string, time: string) => {
-        //const prompt = `${projectDesc}\n\nYour task: `;
-        const payload = { 
-            prompt: `Generate a bullet point list of a ${time} minute workout with 2-5 exercises per muscle group: ${muscleInput1} and ${muscleInput2}. Provide only a bullet point list with a brief decsription of each exercise as well as the time recommended for each exercise.`,
-            muscle1: muscleInput1,
-            muscle2: muscleInput2,
-        }
+        const prompt = `
+            Generate a bullet point list of a ${time} minute workout with 2-5 exercises per muscle group: ${muscleInput1} and ${muscleInput2}. 
+            Provide only a bullet point list with a brief decsription of each exercise as well as the time recommended for each exercise.`;
 
-        const res = await fetch('/workout4u/api/agent', {
-            method: "POST",
-            body: JSON.stringify(payload),
-        })
+        const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY as string);
+    
+        const agent1 = createNode(async (store) => {
+            const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+            const result = await model.generateContent(prompt);
+            store.response = result.response.text();
+            return store;
+        });
 
-        const data = await res.json();
-        console.log(data.response);
-        setPromptResponse(data.response);
-        setStep("output");
+        const agent = new Agent(agent1);
+
+        agent.decide({}).then(result => {
+            console.log(result.response);
+            setPromptResponse(result.response);
+            setStep("output");
+        });
+        
+        // TODO: set up server side API with proper deployment via Vercel
+        // const payload = { 
+        //     prompt: `Generate a bullet point list of a ${time} minute workout with 2-5 exercises per muscle group: ${muscleInput1} and ${muscleInput2}. Provide only a bullet point list with a brief decsription of each exercise as well as the time recommended for each exercise.`,
+        //     muscle1: muscleInput1,
+        //     muscle2: muscleInput2,
+        // }
+
+        // const res = await fetch('/workout4u/api/agent', {
+        //     method: "POST",
+        //     body: JSON.stringify(payload),
+        // })
+
+        // const data = await res.json();
+        // console.log(data.response);
+        // setPromptResponse(data.response);
+        // setStep("output");
     };
 
     const handleSubmit = () => {
