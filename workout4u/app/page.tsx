@@ -69,10 +69,10 @@ export default function Home() {
         } else if (step === "form") {
             return (
                 <div className="flex flex-col h-full justify-around items-center">
-                    <form id="myForm">
-                        <div className="text-center m-5">
-                            <label className="mr-2" htmlFor="muscle1">Choose a muscle group:</label>
-                            <select name="muscle1" id="muscle1">
+                    <form className="flex flex-col items-center" id="myForm">
+                        <div className="text-center mx-5">
+                            <label className="mr-2 text-[1.9vh] md:text-[2.5vh]" htmlFor="muscle1">Choose a muscle group:</label>
+                            <select className="text-[1.9vh] md:text-[2.5vh]" name="muscle1" id="muscle1">
                                 <option value=""></option>
                                 <option value="back">Back</option>
                                 <option value="biceps">Biceps</option>
@@ -85,9 +85,9 @@ export default function Home() {
                             </select>
                         </div>
                         <br/>
-                        <div className="text-center m-5">
-                            <label className="mr-2" htmlFor="muscle1">Choose a second muscle group:</label>
-                            <select name="muscle2" id="muscle2">
+                        <div className="text-center mx-5">
+                            <label className="mr-2 text-[1.9vh] md:text-[2.5vh]" htmlFor="muscle1">Choose a second muscle group:</label>
+                            <select className="text-[1.9vh] md:text-[2.5vh]" name="muscle2" id="muscle2">
                                 <option value=""></option>
                                 <option value="back">Back</option>
                                 <option value="biceps">Biceps</option>
@@ -100,19 +100,21 @@ export default function Home() {
                             </select>
                         </div>
                         <br/>
-                        <div className="text-center m-5">
-                            <label className="mr-2" htmlFor="time">How long do you want to workout for?</label>
+                        <div className="text-center mx-5">
+                            <label className="mr-2 text-[1.9vh] md:text-[2.5vh]" htmlFor="time">How long do you want to workout for?</label>
                             <input type="text" id="time" name="time"></input>
                         </div>
+
+                        <button 
+                        type="submit" 
+                        className="hover:opacity-55 mt-[5vh]" 
+                        onClick={() => handleSubmit()}>
+                            <img src='/workout4u/images/button.png' alt='border' width={100}/>
+                        </button>
                         
                     </form> 
                     
-                    <button 
-                    type="submit" 
-                    className="hover:opacity-55" 
-                    onClick={() => handleSubmit()}>
-                        <img src='/workout4u/images/button.png' alt='border' width={100}/>
-                    </button>
+                    
                 </div>
             );
         } else {
