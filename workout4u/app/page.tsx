@@ -62,7 +62,7 @@ export default function Home() {
     const renderStep = () => {
         if (step === "loading") {
             return (
-                <div className="text-center">
+                <div className="h-full flex items-center justify-center">
                     <h1>Loading...</h1>
                 </div>
             );
@@ -70,8 +70,8 @@ export default function Home() {
             return (
                 <div className="flex flex-col h-full justify-around items-center">
                     <form id="myForm">
-                        <div className="text-center">
-                            <label htmlFor="muscle1">Choose a muscle group:</label>
+                        <div className="text-center m-5">
+                            <label className="mr-2" htmlFor="muscle1">Choose a muscle group:</label>
                             <select name="muscle1" id="muscle1">
                                 <option value=""></option>
                                 <option value="back">Back</option>
@@ -85,8 +85,8 @@ export default function Home() {
                             </select>
                         </div>
                         <br/>
-                        <div className="text-center">
-                            <label htmlFor="muscle1">Choose a second muscle group:</label>
+                        <div className="text-center m-5">
+                            <label className="mr-2" htmlFor="muscle1">Choose a second muscle group:</label>
                             <select name="muscle2" id="muscle2">
                                 <option value=""></option>
                                 <option value="back">Back</option>
@@ -100,9 +100,9 @@ export default function Home() {
                             </select>
                         </div>
                         <br/>
-                        <div className="text-center">
-                        <label htmlFor="time">How long do you want to workout for?</label>
-                        <input type="text" id="time" name="time"></input>
+                        <div className="text-center m-5">
+                            <label className="mr-2" htmlFor="time">How long do you want to workout for?</label>
+                            <input type="text" id="time" name="time"></input>
                         </div>
                         
                     </form> 
@@ -117,9 +117,8 @@ export default function Home() {
             );
         } else {
             return (
-                <div> 
-                    {/* <p className="text-ultramarine p-8 text-center overflow-auto h-[310px] no-scrollbar">{promptResponse}</p> */}
-                    <div className="text-ultramarine p-8 text-center h-[310px] overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] "><ReactMarkdown>{promptResponse}</ReactMarkdown></div>
+                <div className="h-full p-8"> 
+                    <div className="text-ultramarine text-center h-full overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] "><ReactMarkdown>{promptResponse}</ReactMarkdown></div>
                 </div>
             );
         }
