@@ -91,3 +91,13 @@ label {
     border: 10px solid transparent;
     border-image: url('/workout4u/svgs/background.svg') 5;
 }
+
+.input-sizing {
+    @apply text-[1.9vh] rounded-lg focus:ring-indigo focus:outline-none focus:ring-2;
+}
+
+@media (min-width: 768px) {
+    .input-sizing {
+        font-size: 2.5vh;
+    }
+}

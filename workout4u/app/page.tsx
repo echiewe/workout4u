@@ -8,25 +8,45 @@ import ReactMarkdown from 'react-markdown';
 export default function Home() {
     const [promptResponse, setPromptResponse] = useState('');
     const [step, setStep] = useState<'form' | 'loading' | 'output'>('form');
-    //const projectDesc = "Put together a {x} minute workout with 2-5 exercises per muscle group. Include a quick snack suggestion based on the provided ingredient if an ingredient is provided."
 
     const getAgentReponse = async (muscleInput1: string, muscleInput2: string, time: string) => {
-        //const prompt = `${projectDesc}\n\nYour task: `;
-        const payload = { 
-            prompt: `Generate a bullet point list of a ${time} minute workout with 2-5 exercises per muscle group: ${muscleInput1} and ${muscleInput2}. Provide only a bullet point list with a brief decsription of each exercise as well as the time recommended for each exercise.`,
-            muscle1: muscleInput1,
-            muscle2: muscleInput2,
-        }
+        const prompt = `
+            Generate a bullet point list of a ${time} minute workout with 2-5 exercises per muscle group: ${muscleInput1} and ${muscleInput2}. 
+            Provide only a bullet point list with a brief decsription of each exercise as well as the time recommended for each exercise.`;
 
-        const res = await fetch('/workout4u/api/agent', {
-            method: "POST",
-            body: JSON.stringify(payload),
-        })
+        const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY as string);
+    
+        const agent1 = createNode(async (store) => {
+            const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+            const result = await model.generateContent(prompt);
+            store.response = result.response.text();
+            return store;
+        });
 
-        const data = await res.json();
-        console.log(data.response);
-        setPromptResponse(data.response);
-        setStep("output");
+        const agent = new Agent(agent1);
+
+        agent.decide({}).then(result => {
+            console.log(result.response);
+            setPromptResponse(result.response);
+            setStep("output");
+        });
+        
+        // TODO: set up server side API with proper deployment via Vercel
+        // const payload = { 
+        //     prompt: `Generate a bullet point list of a ${time} minute workout with 2-5 exercises per muscle group: ${muscleInput1} and ${muscleInput2}. Provide only a bullet point list with a brief decsription of each exercise as well as the time recommended for each exercise.`,
+        //     muscle1: muscleInput1,
+        //     muscle2: muscleInput2,
+        // }
+
+        // const res = await fetch('/workout4u/api/agent', {
+        //     method: "POST",
+        //     body: JSON.stringify(payload),
+        // })
+
+        // const data = await res.json();
+        // console.log(data.response);
+        // setPromptResponse(data.response);
+        // setStep("output");
     };
 
     const handleSubmit = () => {
@@ -42,17 +62,17 @@ export default function Home() {
     const renderStep = () => {
         if (step === "loading") {
             return (
-                <div className="text-center">
-                    <h1>Loading...</h1>
+                <div className="h-full flex items-center justify-center">
+                    <h1 className="text-indigo">Loading...</h1>
                 </div>
             );
         } else if (step === "form") {
             return (
                 <div className="flex flex-col h-full justify-around items-center">
-                    <form id="myForm">
-                        <div className="text-center">
-                            <label htmlFor="muscle1">Choose a muscle group:</label>
-                            <select name="muscle1" id="muscle1">
+                    <form className="flex flex-col items-center" id="myForm">
+                        <div className="text-center mx-5">
+                            <label className="mr-2 input-sizing" htmlFor="muscle1">Choose a muscle group:</label>
+                            <select className="input-sizing" name="muscle1" id="muscle1">
                                 <option value=""></option>
                                 <option value="back">Back</option>
                                 <option value="biceps">Biceps</option>
@@ -65,9 +85,9 @@ export default function Home() {
                             </select>
                         </div>
                         <br/>
-                        <div className="text-center">
-                            <label htmlFor="muscle1">Choose a second muscle group:</label>
-                            <select name="muscle2" id="muscle2">
+                        <div className="text-center mx-5">
+                            <label className="mr-2 input-sizing" htmlFor="muscle1">Choose a second muscle group:</label>
+                            <select className="input-sizing" name="muscle2" id="muscle2">
                                 <option value=""></option>
                                 <option value="back">Back</option>
                                 <option value="biceps">Biceps</option>
@@ -80,26 +100,31 @@ export default function Home() {
                             </select>
                         </div>
                         <br/>
-                        <div className="text-center">
-                        <label htmlFor="time">How long do you want to workout for?</label>
-                        <input type="text" id="time" name="time"></input>
+                        <div className="text-center mx-5">
+                            <label className="mr-2 input-sizing" htmlFor="time">How long do you want to workout for? (Minutes)</label>
+                            <input className="input-sizing px-2 py-1" autoComplete="off" type="text" id="time" name="time"></input>
                         </div>
+
+                        <button 
+                        type="submit" 
+                        className="hover:opacity-55 mt-[5vh] w-full" 
+                        onClick={() => handleSubmit()}>
+                            {/* <img src='/workout4u/images/button.png' alt='border' width={100}/> */}
+                            <p className="input-sizing p-1.5 rounded-md bg-lightpink hover:bg-lightpink/60 text-indigo mx-8">Submit</p>
+                        </button>
                         
                     </form> 
                     
-                    <button 
-                    type="submit" 
-                    className="hover:opacity-55" 
-                    onClick={() => handleSubmit()}>
-                        <img src='/workout4u/images/button.png' alt='border' width={100}/>
-                    </button>
+                    
                 </div>
             );
         } else {
             return (
-                <div> 
-                    {/* <p className="text-ultramarine p-8 text-center overflow-auto h-[310px] no-scrollbar">{promptResponse}</p> */}
-                    <div className="text-ultramarine p-8 text-center h-[310px] overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] "><ReactMarkdown>{promptResponse}</ReactMarkdown></div>
+                <div className="h-full p-8"> 
+                    <div className="text-ultramarine text-center h-full overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex flex-col gap-3">
+                        <ReactMarkdown>{promptResponse}</ReactMarkdown>
+                        <a className="p-1.5 rounded-md bg-lightpink hover:bg-lightpink/60" href="/workout4u"><p className="text-xl">New Workout</p></a>
+                    </div>
                 </div>
             );
         }
